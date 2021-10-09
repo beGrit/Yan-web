@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <manage-view></manage-view>
   </div>
 </template>
 
@@ -30,3 +26,10 @@
   color: #42b983;
 }
 </style>
+<script>
+import ManageView from "./views/framework/manage/ManageView.vue";
+export default {
+  components: {ManageView},
+  comments: {}
+}
+</script>
