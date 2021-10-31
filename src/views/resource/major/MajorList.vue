@@ -144,7 +144,6 @@ export default {
       this.addDialogVisible = false;
     },
     handleClick(row) {
-
     },
     afterSaveSuccess() {
       this.handleClose();

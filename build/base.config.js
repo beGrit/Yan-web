@@ -32,17 +32,12 @@ module.exports = {
                 loader: 'vue-loader',
             },
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
+                test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]?[hash]'
+                }
             },
-            {
-                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: 'url-loader',
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-            }
         ],
     },
     plugins: [

@@ -12,7 +12,7 @@
       </el-row>
       <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="listData.list"
           height="250"
           style="width: 100%; min-height: 580px; max-height: 580px"
           border
@@ -77,17 +77,17 @@
       <el-pagination
           background
           layout="prev, pager, next"
-          :total="totalCount"
+          :total="listData.totalCount"
           @current-change="pageIndexChange"
-          :page-size="pageSize"
+          :page-size="listData.pageSize"
+          :current-page="listData.currPage"
       >
       </el-pagination>
     </el-footer>
-
     <el-dialog
         title="院校添加表单"
         :visible.sync="addDialogVisible"
-        width="80%">
+        width="800px">
       <university-form @saveSuccess="afterSaveSuccess" @formClose="afterFormClose"></university-form>
     </el-dialog>
   </el-container>
@@ -103,13 +103,16 @@ export default {
   components: {UniversityForm},
   data: () => {
     return {
-      tableData: [],
-      currPage: 1,
-      pageSize: 10,
-      totalPage: 1,
-      totalCount: 1,
+      listData: {
+        list: [],
+        currPage: 1,
+        pageSize: 10,
+        totalPage: 1,
+        totalCount: 1,
+        multipleSelection: [],
+      },
+      defaultPageSize: 10,
       addDialogVisible: false,
-      multipleSelection: [],
     }
   },
   created() {
@@ -119,14 +122,10 @@ export default {
   methods: {
     pageIndexChange(pageIndex) {
       // 发送网络请求获取页信息
-      let pm = pageQuery(pageIndex, this.pageSize);
+      let pm = pageQuery(pageIndex, this.defaultPageSize);
       pm.then(res => res.data)
           .then(data => {
-            this.totalCount = data.totalCount;
-            this.totalPage = data.totalPage;
-            this.currPage = data.currPage;
-            this.pageSize = data.pageSize;
-            this.tableData = data.list;
+            this.listData = data;
           });
     },
     delRows: function () {
@@ -158,13 +157,13 @@ export default {
       }
     },
     refreshTable() {
-      this.pageIndexChange(this.pageBar.pageIndex);
+      this.pageIndexChange(this.listData.currPage);
     },
     handleClose() {
       this.addDialogVisible = false;
     },
     handleClick(row) {
-
+      this.addDialogVisible = true;
     },
     afterSaveSuccess() {
       this.handleClose();
@@ -178,5 +177,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
